@@ -9,7 +9,7 @@
 [4] Environment variables: prefixed with TF_VAR_
 [5] Command-line flags: variables passed using -var flag 
     HIGHEST PRECENCE
-      terraform apply -var="region=us-east-1" -var="instance_type=t2.small"
+      terraform apply -var="region=us-east-1" -var="instance_type=t2.small" */
 
 # STRING: single string value
 variable "region" {
