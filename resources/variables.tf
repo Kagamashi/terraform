@@ -1,15 +1,16 @@
-/* VARIABLE precedence (from lowest to highest)
-[1] Default values in variable declarations
-[2] terraform.tfvars or *.auto.tfvars files 
+/* VARIABLE precedence (from highest to lowest_))
+[1] Command-line flags: variables passed using -var flag 
+    HIGHEST PRECENCE
+      terraform apply -var="region=us-east-1" -var="instance_type=t2.small"
+[2] Explicit variable files: passed using -var-file flag
+      terraform apply -var-file="prod.tfvars"
+[3] terraform.tfvars or *.auto.tfvars files 
     These files are automatically loaded - example terraform.tfvars file:
+    These files are processed in lexical order of their filenames
       region = "us-west-2"
       instance_type = "t2.micro"
-[3] Explicit variable files: passed using -var-file flag
-      terraform apply -var-file="prod.tfvars"
 [4] Environment variables: prefixed with TF_VAR_
-[5] Command-line flags: variables passed using -var flag 
-    HIGHEST PRECENCE
-      terraform apply -var="region=us-east-1" -var="instance_type=t2.small" */
+[5] Default values in variable declarations */
 
 # STRING: single string value
 variable "region" {
