@@ -7,10 +7,9 @@ resource "aws_instance" "my_instance" {
   instance_type = "t2.micro"
 }
 
+
 # This creates three EC2 instances with the same configuration. 
 # You can access each instance using an index (e.g., aws_instance.my_instance[0]).
-
-
 # using count.index to differentiate resources
 resource "aws_instance" "example" {
   count         = 3
@@ -23,7 +22,7 @@ resource "aws_instance" "example" {
 }
 
 
-# conditional resource creation with count
+# conditional resource creation with count (count as if-else statement)
 resource "aws_instance" "example" {
   count = var.create_instance ? 1 : 0  # Create the instance only if the condition is true
   ami           = "ami-0c55b159cbfafe1f0"
@@ -44,3 +43,8 @@ resource "aws_instance" "example" {
   ami           = "ami-0c55b159cbfafe1f0"
   instance_type = var.instance_types[count.index]  # Use a different instance type for each instance
 }
+
+
+# Note that after you’ve used count on a resource,  
+# it becomes an array of resources rather than just one resource.  
+# Count on module turns it into an array of modules. 
