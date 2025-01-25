@@ -4,51 +4,49 @@
 # Count on module turns it into an array of modules. 
 
 
-# count argument allows to create multiple instances of a resource based on the count value.
-# useful for scaling up resources without duplicating the code
-resource "aws_instance" "my_instance" {
-  count         = 3
-  ami           = "ami-0c55b159cbfafe1f0"
-  instance_type = "t2.micro"
-}
-
-
-# creates three EC2 instances with the same configuration.
-# each instance can be accessed using an index (e.g., aws_instance.my_instance[0]).
-# using count.index to differentiate resources
-resource "aws_instance" "example" {
-  count         = 3
-  ami           = "ami-0c55b159cbfafe1f0"
-  instance_type = "t2.micro"
-
-  tags = {
-    Name = "Instance-${count.index + 1}"  # creates tags: Instance-1, Instance-2, Instance-3
-  }
-}
-
-
 # conditional resource creation with count (count as if-else statement)
-resource "aws_instance" "example" {
-  count = var.create_instance ? 1 : 0   # create the instance only if the condition is true
-  ami           = "ami-0c55b159cbfafe1f0"
-  instance_type = "t2.micro"
+variable "create_instance" {
+  type    = bool
+  default = true
 }
 
-variable create_instance {
-  type = bool
-  default = true
+resource "azurerm_resource_group" "example" {
+  count = var.create_instance ? 1 : 0  # Create the VM only if the condition is true
+
+  name                = "example-vm"
+  location            = azurerm_resource_group.example.location
 }
 
 
 # working with lists using count
-variable "instance_types" {
+# each instance can be accessed using an index (e.g., azurerm_linux_virtual_machine.my_instance[0]).
+variable "vm_sizes" {
   type    = list(string)
-  default = ["t2.micro", "t2.small", "t2.medium"]
+  default = ["Standard_B1s", "Standard_B2s", "Standard_B2ms"]
 }
 
-resource "aws_instance" "example" {
-  count         = length(var.instance_types)
+resource "azurerm_linux_virtual_machine" "example" {
+  count                = length(var.vm_sizes)  # Number of VMs matches the length of the list
 
-  ami           = "ami-0c55b159cbfafe1f0"
-  instance_type = var.instance_types[count.index]  # use a different instance type for each aws_instance
+  name                 = "example-vm-${count.index + 1}"
+  resource_group_name  = azurerm_resource_group.example.name
+  location             = azurerm_resource_group.example.location
+  size                 = var.vm_sizes[count.index]  # Use a different size for each VM
+
+  admin_username = "azureuser"
+  admin_password = "P@ssw0rd1234!"
+
+  network_interface_ids = [azurerm_network_interface.example[count.index].id]
+
+  os_disk {
+    caching              = "ReadWrite"
+    storage_account_type = "Standard_LRS"
+  }
+
+  source_image_reference {
+    publisher = "Canonical"
+    offer     = "UbuntuServer"
+    sku       = "18.04-LTS"
+    version   = "latest"
+  }
 }
