@@ -1,7 +1,6 @@
 /* VARIABLE precedence (from highest to lowest_))
 [1] Command-line flags: variables passed using -var flag 
-    HIGHEST PRECENCE
-      terraform apply -var="region=us-east-1" -var="instance_type=t2.small"
+terraform apply -var="region=us-east-1" -var="instance_type=t2.small"
 [2] Explicit variable files: passed using -var-file flag
       terraform apply -var-file="prod.tfvars"
 [3] terraform.tfvars or *.auto.tfvars files 
@@ -17,7 +16,6 @@ variable "region" {
   type    = string
   default = "us-west-2"
 }
-# Usage: region = var.region
 
 
 # LIST: a collection of values (similar to an array)
