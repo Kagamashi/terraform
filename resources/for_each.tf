@@ -1,19 +1,18 @@
+
 # for_each allows you to create resources for each item in a map or set. 
 # It’s more flexible than count as it allows the creation of resources based on key-value pairs.
-
 resource "aws_instance" "my_instance" {
   for_each = {
     server1 = "ami-0c55b159cbfafe1f0"
     server2 = "ami-0d4c71e1"
   }
-  ami           = each.value
+
+  ami           = each.value // different names (server1 and server2)
   instance_type = "t2.micro"
   tags = {
-    Name = each.key
+    Name = each.key // different AMIs
   }
 }
-
-# This creates two EC2 instances with different AMIs and names (server1 and server2).
 
 
 # using for_each with a list
