@@ -1,6 +1,11 @@
-# The count argument allows you to create multiple instances of a resource based on the count value. 
-# This is useful for scaling up resources without duplicating the code.
 
+# Note that after you’ve used count on a resource,  
+# it becomes an array of resources rather than just one resource.  
+# Count on module turns it into an array of modules. 
+
+
+# count argument allows to create multiple instances of a resource based on the count value.
+# useful for scaling up resources without duplicating the code
 resource "aws_instance" "my_instance" {
   count         = 3
   ami           = "ami-0c55b159cbfafe1f0"
@@ -8,8 +13,8 @@ resource "aws_instance" "my_instance" {
 }
 
 
-# This creates three EC2 instances with the same configuration. 
-# You can access each instance using an index (e.g., aws_instance.my_instance[0]).
+# creates three EC2 instances with the same configuration.
+# each instance can be accessed using an index (e.g., aws_instance.my_instance[0]).
 # using count.index to differentiate resources
 resource "aws_instance" "example" {
   count         = 3
@@ -17,19 +22,22 @@ resource "aws_instance" "example" {
   instance_type = "t2.micro"
 
   tags = {
-    Name = "Instance-${count.index + 1}"  # Creates tags like Instance-1, Instance-2, Instance-3
+    Name = "Instance-${count.index + 1}"  # creates tags: Instance-1, Instance-2, Instance-3
   }
 }
 
 
 # conditional resource creation with count (count as if-else statement)
 resource "aws_instance" "example" {
-  count = var.create_instance ? 1 : 0  # Create the instance only if the condition is true
+  count = var.create_instance ? 1 : 0   # create the instance only if the condition is true
   ami           = "ami-0c55b159cbfafe1f0"
   instance_type = "t2.micro"
 }
 
-variable create_instance {}
+variable create_instance {
+  type = bool
+  default = true
+}
 
 
 # working with lists using count
@@ -40,11 +48,7 @@ variable "instance_types" {
 
 resource "aws_instance" "example" {
   count         = length(var.instance_types)
+
   ami           = "ami-0c55b159cbfafe1f0"
-  instance_type = var.instance_types[count.index]  # Use a different instance type for each instance
+  instance_type = var.instance_types[count.index]  # use a different instance type for each aws_instance
 }
-
-
-# Note that after you’ve used count on a resource,  
-# it becomes an array of resources rather than just one resource.  
-# Count on module turns it into an array of modules. 
