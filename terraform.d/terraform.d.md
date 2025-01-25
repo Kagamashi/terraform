@@ -1,14 +1,17 @@
-## terraform.d
-typically located in home directory ~/.terraform.d
-- plugins/: Stores downloaded provider binaries for use across all projects.
-- credentials.tfrc.json: Stores credentials for accessing private Terraform registries or Terraform Cloud.
-- plugin-cache/: Caches provider binaries to speed up initialization.
-- .terraformrc: global CLI settings: plugin cache directories, credentials, and proxy settings.
-- terraform-plugin-installation.json: Defines alternative installation sources for Terraform providers.
+# Terraform.d Directory and Configuration
 
-# PLUGINS : plugins
-stores provider and provisioner binaries that are used globally across all Terraform configurations
+The `~/.terraform.d` directory is typically located in the user's home directory and is used to store global settings, plugins, and configurations for Terraform.
 
+---
+
+## Contents of `~/.terraform.d`
+
+### Plugins
+- **Path:** `~/.terraform.d/plugins/`
+- **Purpose:** Stores provider and provisioner binaries used globally across all Terraform configurations.
+
+Example directory structure:
+```
 terraform.d/
 ├── plugins/
 │   └── registry.terraform.io/
@@ -19,10 +22,34 @@ terraform.d/
 │   └── custom-provider/
 │       └── 1.0.0/
 │           └── terraform-provider-custom_v1.0.0
+```
 
-# CLI configuration file : credentials.tfrc.json
-store credentials for accessing private Terraform registries
+---
 
+### CLI Configuration File: `.terraformrc`
+- **Purpose:** Customizes the behavior of the Terraform CLI.
+- **Common Settings:**
+  - Proxy settings
+  - Plugin directories
+  - Provider credentials
+
+Example `.terraformrc` file:
+```hcl
+credentials "app.terraform.io" {
+  token = "your-terraform-cloud-token"
+}
+
+plugin_cache_dir = "$HOME/.terraform.d/plugin-cache"
+```
+
+---
+
+### Credentials File: `credentials.tfrc.json`
+- **Purpose:** Stores credentials for accessing private Terraform registries or Terraform Cloud.
+- **Path:** `~/.terraform.d/credentials.tfrc.json`
+
+Example `credentials.tfrc.json` file:
+```json
 {
   "credentials": {
     "app.terraform.io": {
@@ -30,38 +57,37 @@ store credentials for accessing private Terraform registries
     }
   }
 }
+```
 
+---
 
-# Plugin Cache : plugin-cache
-plugin-cache directory inside terraform.d caches plugins to avoid repeadetly downloading providers during terraform init
+### Plugin Cache: `plugin-cache`
+- **Path:** `~/.terraform.d/plugin-cache/`
+- **Purpose:** Caches provider binaries to avoid repeatedly downloading them during `terraform init`.
 
+Example directory structure:
+```
 terraform.d/
 ├── plugin-cache/
 │   └── registry.terraform.io/
 │       └── hashicorp/
 │           └── aws/
 │               └── 4.0.0/
+```
 
-To enable plugin cache add the following to CLI configuration file .terraformrc
+To enable the plugin cache, add the following to the `.terraformrc` file:
+```hcl
 plugin_cache_dir = "$HOME/.terraform.d/plugin-cache"
+```
 
+---
 
-# CLI Configuration : .terraformrc
-Customize behavior of CLI 
-- proxy settings
-- plugin directories
-- provider credentials
+### Provider Installation Sources: `terraform-plugin-installation.json`
+- **Purpose:** Defines alternative installation sources for Terraform providers.
+- **Path:** `~/.terraform.d/terraform-plugin-installation.json`
 
-credentials "app.terraform.io" {
-  token = "your-terraform-cloud-token"
-}
-
-plugin_cache_dir = "$HOME/.terraform.d/plugin-cache"
-
-
-# Provider Installation Sources : terraform-plugin-installation.json
-Provider installation sources are stored in terraform.d directory and help Terraform determine where to download providers from
-
+Example `terraform-plugin-installation.json` file:
+```json
 {
   "provider_installation": {
     "hashicorp/aws": {
@@ -74,4 +100,4 @@ Provider installation sources are stored in terraform.d directory and help Terra
     }
   }
 }
-
+```
