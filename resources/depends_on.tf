@@ -1,6 +1,7 @@
-/* depends_on explicitly defines a resource's dependency on other resources. 
-This is particularly useful when the dependency is not directly referenced within the resource itself.
-Most of the times Terraform is able to automatically detect the order of dependency */
+# depends_on explicitly defines a resource's dependency on other resources. 
+
+# This is particularly useful when the dependency is not directly referenced within the resource itself.
+# Most of the times Terraform is able to automatically detect the order of dependency
 
 resource "aws_instance" "my_instance" {
   ami           = "ami-0c55b159cbfafe1f0"
