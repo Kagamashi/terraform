@@ -48,38 +48,3 @@ terraform apply
 # Disable logging
 unset TF_LOG
 ```
-
----
-
-## Resolving State Issues
-
-### 1. **State Locking**
-If a state becomes locked, use the following command to unlock it:
-```bash
-terraform force-unlock <LOCK_ID>
-```
-
-### 2. **Drift**
-- To update the state file with the current infrastructure:
-  ```bash
-  terraform refresh
-  ```
-- To remove resources from the state file that no longer exist:
-  ```bash
-  terraform state rm <RESOURCE_NAME>
-  ```
-
-### 3. **Importing Resources**
-Manually created resources can be added to Terraform's state file using the `terraform import` command:
-```bash
-terraform import <RESOURCE_TYPE.RESOURCE_NAME> <RESOURCE_ID>
-```
-
-Example:
-```bash
-terraform import aws_instance.example i-1234567890abcdef0
-```
-
-This ensures the manually created resource is managed by Terraform moving forward.
-
----
