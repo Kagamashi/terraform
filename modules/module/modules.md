@@ -77,8 +77,3 @@ module "vpc" {
   cidr_block = "10.0.0.0/16"
 }
 ```
-
----
-
-Using modules effectively helps manage infrastructure at scale, promotes code reusability, and simplifies the complexity of configurations.
-
