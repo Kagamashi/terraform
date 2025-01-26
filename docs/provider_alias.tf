@@ -1,23 +1,27 @@
-provider "aws" {
-  alias  = "us-west"
-  region = "us-west-2"
+# Provider for the West Europe region
+provider "azurerm" {
+  alias    = "westeurope"
+  features {}
 }
 
-provider "aws" {
-  alias  = "us-east"
-  region = "us-east-1"
+# Provider for the East Europe region
+provider "azurerm" {
+  alias    = "easteurope"
+  features {}
 }
 
-# AWS instance in US-West region
-resource "aws_instance" "west_instance" {
-  provider = aws.us-west
-  ami           = "ami-0c55b159cbfafe1f0"
-  instance_type = "t2.micro"
+# Resource Group using westeurope provider
+resource "azurerm_resource_group" "west_rg" {
+  provider = azurerm.westeurope
+
+  name     = "example-west-rg"
+  location = "westeurope"
 }
 
-# AWS instance in US-East region
-resource "aws_instance" "east_instance" {
-  provider = aws.us-east
-  ami           = "ami-0d4c71e1"
-  instance_type = "t2.micro"
+# Resource Group using easteurope provider
+resource "azurerm_resource_group" "east_rg" {
+  provider = azurerm.easteurope
+
+  name     = "example-east-rg"
+  location = "easteurope"
 }
