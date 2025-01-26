@@ -2,15 +2,15 @@
 condition: Defines the rule that the variable value must meet.
 error_message: Custom message displayed when the validation fails.
 
-Common Functions:
-  contains(): Ensures a value is in a list or map.
-  regex(): Validates a string matches a regular expression.
-  length(): Ensures a list or string has a certain length.
-  can(): Safely evaluates an expression without causing errors.
-  alltrue(): Ensures that all conditions in a list are true.
-  keys(): Extracts keys from a map. */
+  - regex(): Validates a string matches a regular expression.
+  - contains(): Ensures a value is in a list or map.
+  - length(): Ensures a list or string has a certain length.
+  - can(): Safely evaluates an expression without causing errors.
+  - alltrue(): Ensures that all conditions in a list are true.
+  - keys(): Extracts keys from a map. */
 
-# Ensuring a String Follows a Specific Pattern (Regex validation)
+
+# specific pattern for string : regex()
 variable "vpc_cidr" {
   type        = string
   description = "The CIDR block for the VPC"
@@ -21,7 +21,7 @@ variable "vpc_cidr" {
   }
 }
 
-# Ensuring a value is within a list of accepted values
+# value in a list of accepted values : contains()
 variable "environment" {
   type        = string
   description = "The environment for the deployment (e.g., dev, staging, prod)"
