@@ -42,14 +42,3 @@ The `terraform import` command allows you to bring existing infrastructure under
 ```bash
 terraform import aws_instance.example i-1234567890abcdef0
 ```
-
----
-
-## Best Practices for State Management
-1. **Use remote state:** Always prefer remote backends for production environments.
-2. **Encrypt state files:** Ensure state files are encrypted at rest and in transit.
-3. **Access control:** Restrict access to state files using IAM policies or other mechanisms.
-4. **State locking:** Use backends that support state locking to avoid conflicts.
-
-By properly managing state files, you can ensure the stability, security, and consistency of your Terraform-managed infrastructure.
-
