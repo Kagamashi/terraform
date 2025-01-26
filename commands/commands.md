@@ -1,5 +1,5 @@
 
-## 1. `terraform init`
+## `terraform init`
 - **Description:** Initializes a Terraform working directory by downloading the necessary provider plugins and setting up the backend for state storage.
 - **Usage:**
   ```bash
@@ -11,7 +11,7 @@
 
 ---
 
-## 2. `terraform validate`
+## `terraform validate`
 - **Description:** Validates the syntax and configuration of Terraform files in the current directory.
 - **Usage:**
   ```bash
@@ -21,7 +21,7 @@
 
 ---
 
-## 3. `terraform plan`
+## `terraform plan`
 - **Description:** Creates an execution plan, showing what actions Terraform will take to achieve the desired state.
 - **Usage:**
   ```bash
@@ -33,7 +33,7 @@
 
 ---
 
-## 4. `terraform apply`
+## `terraform apply`
 - **Description:** Executes the changes defined in the execution plan to reach the desired state.
 - **Usage:**
   ```bash
@@ -46,7 +46,7 @@
 
 ---
 
-## 5. `terraform destroy`
+## `terraform destroy`
 - **Description:** Destroys all resources managed by the Terraform configuration.
 - **Usage:**
   ```bash
@@ -58,7 +58,7 @@
 
 ---
 
-## 6. `terraform fmt`
+## `terraform fmt`
 - **Description:** Formats Terraform configuration files to follow the standard style.
 - **Usage:**
   ```bash
@@ -69,7 +69,7 @@
 
 ---
 
-## 7. `terraform show`
+## `terraform show`
 - **Description:** Displays the current state or details of a saved execution plan.
 - **Usage:**
   ```bash
@@ -79,7 +79,7 @@
 
 ---
 
-## 8. `terraform state`
+## `terraform state`
 - **Description:** Manages the state file, allowing inspection and modification of resources.
 - **Usage:**
   ```bash
@@ -92,7 +92,7 @@
 
 ---
 
-## 9. `terraform import`
+## `terraform import`
 - **Description:** Imports existing infrastructure into Terraform's state file.
 - **Usage:**
   ```bash
@@ -105,7 +105,7 @@
 
 ---
 
-## 10. `terraform output`
+## `terraform output`
 - **Description:** Displays the output values from the state file.
 - **Usage:**
   ```bash
@@ -116,7 +116,7 @@
 
 ---
 
-## 11. `terraform workspace`
+## `terraform workspace`
 - **Description:** Manages multiple workspaces for environments (e.g., dev, staging, prod).
 - **Usage:**
   ```bash
@@ -130,25 +130,7 @@
 
 ---
 
-## 12. `terraform taint`
-- **Description:** Marks a resource as tainted, forcing it to be destroyed and recreated during the next `terraform apply`.
-- **Usage:**
-  ```bash
-  terraform taint resource.id
-  ```
-
----
-
-## 13. `terraform untaint`
-- **Description:** Removes the tainted mark from a resource.
-- **Usage:**
-  ```bash
-  terraform untaint resource.id
-  ```
-
----
-
-## 14. `terraform graph`
+## `terraform graph`
 - **Description:** Generates a visual graph of the Terraform configuration.
 - **Usage:**
   ```bash
@@ -158,16 +140,7 @@
 
 ---
 
-## 15. `terraform login`
-- **Description:** Authenticates Terraform with Terraform Cloud or other remote backends.
-- **Usage:**
-  ```bash
-  terraform login
-  ```
-
----
-
-## 16. `terraform providers`
+## `terraform providers`
 - **Description:** Lists the providers required by the configuration.
 - **Usage:**
   ```bash
@@ -176,7 +149,7 @@
 
 ---
 
-## 17. `terraform version`
+## `terraform version`
 - **Description:** Displays the current Terraform version.
 - **Usage:**
   ```bash
