@@ -1,35 +1,50 @@
-# environments/thor/prod/01-admin/dns_services.tf
-
 variable zones {
-  type = map
-
-  # Map Description:
-  # "zone_name from link above" = ["all", "of", "the", "service", "ids", "for", "given", "service"]
+  type = map(object({
+    privatelink_names = list(string)
+    records = object({
+      a = list(object({
+        name    = string
+        records = list(string)
+        ttl     = number
+      }))
+      cname = list(object({
+        name   = string
+        record = string
+        ttl    = number
+      }))
+    })
+  }))
+  
   default = {
-
-    # Docker related zones
-    "privatelink.westeurope.azmk8s.io" = { # AKS - regional!
+    "privatelink.westeurope.azmk8s.io" = { # AKS
       privatelink_names = ["management"]
       records = {
-        a = []
+        a = [
+          {name = "aks-nodepool1", records = ["10.0.0.1"], ttl = 300},
+        ]
         cname = []
       }
     }
     "privatelink.azurecr.io" = {
       privatelink_names = ["registry"] # ACR
       records = {
-        a = []
-        cname = []
+        a = [
+          {name = "acr-prod", records = ["10.0.1.1"], ttl = 3600},
+        ]
+        cname = [
+          {name = "acr-prod-cname", record = "acr.example.com", ttl = 3600},
+        ]
       }
     }
     "privatelink.database.windows.net" = {
       privatelink_names = ["sqlServer"]
       records = {
         a = [
-          {name = "sql-swisscat-dev-weur-001", records = ["10.254.93.68"], ttl = 300},
+          {name = "sql-dev", records = ["10.1.1.1"], ttl = 300},
+          {name = "sql-prod", records = ["10.1.1.2"], ttl = 300},
         ]
         cname = [
-          #{name = "example", record = "my.example.com", ttl = 300},
+          {name = "sql-alias", record = "sql.example.com", ttl = 300},
         ]
       }
     }
@@ -37,15 +52,15 @@ variable zones {
 }
 
 resource "azurerm_private_dns_a_record" "privatelink_records" {
-  for_each = {for i in flatten([for k,v in var.zones: [for r in v.records.a: {
+  for_each = {for i in flatten([for k,v in var.zones: [for r in v.records.a: {  # flatten is used to collapse nested lists into a single list of elements and remove any null values
       name = r.name
       records = r.records
       ttl = r.ttl
-      tags = var.tags # every record will use tags from var.tags as in variable block usage of var. prefix is not allowed.
-      fqdn = "${r.name}.${k}"
+      tags = var.tags
+      fqdn = "${r.name}.${k}" # fqdn is constructed by concatenating the record name with the zone name
       zone_name = k
     }]
-  ]): i.fqdn => i}
+  ]): i.fqdn => i} # the key for the map is the fqdn
 
   name                = each.value.name
   zone_name           = azurerm_private_dns_zone.zone[each.value.zone_name].name
@@ -55,12 +70,26 @@ resource "azurerm_private_dns_a_record" "privatelink_records" {
 
   tags                = each.value.tags
 }
+# first record:
+# azurerm_private_dns_a_record.privatelink_records["aks-nodepool1.privatelink.westeurope.azmk8s.io"] = {
+#   name                = "aks-nodepool1"
+#   zone_name           = "privatelink.westeurope.azmk8s.io"
+#   resource_group_name = "example-rg"
+#   ttl                 = 300
+#   records             = ["10.0.0.1"]
+#   tags                = {
+#     environment = "dev"
+#     team        = "platform"
+#   }
+# }
+
+
 resource "azurerm_private_dns_cname_record" "privatelink_records" {
   for_each = {for i in flatten([for k,v in var.zones: [for r in v.records.cname: {
       name = r.name
       record = r.record
       ttl = r.ttl
-      tags = var.tags # every record will use tags from var.tags as in variable block usage of var. prefix is not allowed.
+      tags = var.tags
       fqdn = "${r.name}.${k}"
       zone_name = k
     }]
@@ -74,3 +103,5 @@ resource "azurerm_private_dns_cname_record" "privatelink_records" {
 
   tags                = each.value.tags
 }
+
+variable tags {}
