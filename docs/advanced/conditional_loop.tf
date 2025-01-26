@@ -1,7 +1,3 @@
-erraform {
-  backend local {}
-}
-
 variable hotel_transylvania_characters {
   type = list(object({
     like = bool
@@ -19,11 +15,11 @@ variable hotel_transylvania_characters {
   ]
 }
 
-output example {
+output result {
   value = { for character in [for c in var.hotel_transylvania_characters: c if c.like == true]: character.name => character }
 }
-# Result:
-#example = {
+
+# result = {
 #  drac = {
 #    name = "drac"
 #    like = true
