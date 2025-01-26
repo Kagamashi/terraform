@@ -1,7 +1,3 @@
-terraform {
-  backend local {}
-}
-
 # simulates creation of multiple Azure Container Registry private endpoints
 variable endpoints {
   type = map
@@ -35,20 +31,16 @@ variable endpoints {
   }
 }
 
-# Question: How to write for block here to get out of it exactly what's in expected
-#           result having in mind that there can be multiple of "registry" blocks?
-output result {
-  value = {for k,v in { 
-      for cdc in flatten(
-        [for pe in var.endpoints: pe.custom_dns_configs]
-      ): 
-        cdc.fqdn => cdc.ip_addresses...
-    }: 
-      k => flatten(v)
+# flatten collapses nested lists into a single list of elements and removes any null values
+output "result" {
+  value = {
+    for cdc in flatten([for pe in values(var.endpoints): pe.custom_dns_configs]):  # iterates over all private endpoints (pe) and extracts their custom_dns_configs
+      cdc.fqdn => flatten([   # iterates over all custom_dns_configs (cdc) and extracts their fqdn and ip_addresses
+        lookup(cdc, "ip_addresses", []) # uses lookup to safely extract the ip_addresses key from each custom_dns_config; flatten ensures all IPs are in a single flat list for each FQDN.
+      ])
   }
 }
 
-# Expected result:
 # result = {
 #   "something.westeurope.data.azurecr.io" = [
 #     "1.1.1.1",
