@@ -1,40 +1,5 @@
 
-## `terraform init`
-- **Description:** Initializes a Terraform working directory by downloading the necessary provider plugins and setting up the backend for state storage.
-- **Usage:**
-  ```bash
-  terraform init
-  ```
-- **Options:**
-  - `-backend=false`: Disables backend initialization.
-  - `-upgrade`: Reinstalls the latest version of provider plugins.
 
----
-
-
-
-## `terraform apply`
-- **Description:** Executes the changes defined in the execution plan to reach the desired state.
-- **Usage:**
-  ```bash
-  terraform apply
-  ```
-- **Options:**
-  - `-auto-approve`: Skips the approval prompt.
-  - `-var 'key=value'`: Sets a variable.
-  - `planfile`: Apply a previously saved plan file.
-
----
-
-## `terraform destroy`
-- **Description:** Destroys all resources managed by the Terraform configuration.
-- **Usage:**
-  ```bash
-  terraform destroy
-  ```
-- **Options:**
-  - `-auto-approve`: Skips the approval prompt.
-  - `-target=resource`: Destroys a specific resource.
 
 ---
 
@@ -95,18 +60,6 @@
   - `-json`: Displays the output in JSON format.
 
 ---
-
-## `terraform workspace`
-- **Description:** Manages multiple workspaces for environments (e.g., dev, staging, prod).
-- **Usage:**
-  ```bash
-  terraform workspace <subcommand>
-  ```
-- **Subcommands:**
-  - `list`: Lists all workspaces.
-  - `show`: Shows the current workspace.
-  - `new`: Creates a new workspace.
-  - `select`: Switches to another workspace.
 
 ---
 
