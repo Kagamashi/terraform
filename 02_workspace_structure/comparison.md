@@ -9,6 +9,7 @@
 | **Best For**                 | Complex setups, teams  | Small projects, quick setups | CI/CD pipeline automation |
 
 ---
+
 ## **Which Approach Should You Choose?**
 | Scenario | Recommended Approach |
 |----------|----------------------|
