@@ -11,27 +11,7 @@
 
 ---
 
-## `terraform validate`
-- **Description:** Validates the syntax and configuration of Terraform files in the current directory.
-- **Usage:**
-  ```bash
-  terraform validate
-  ```
-- **Purpose:** Ensures that the configuration is syntactically valid before applying it.
 
----
-
-## `terraform plan`
-- **Description:** Creates an execution plan, showing what actions Terraform will take to achieve the desired state.
-- **Usage:**
-  ```bash
-  terraform plan
-  ```
-- **Options:**
-  - `-out=planfile`: Saves the plan to a file for later execution.
-  - `-var 'key=value'`: Sets a variable.
-
----
 
 ## `terraform apply`
 - **Description:** Executes the changes defined in the execution plan to reach the desired state.
